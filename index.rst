@@ -46,8 +46,6 @@
 
 .. note::
 
-   **This technote is not yet published.**
-
    This note describes the design of a client/server Butler.
 
 .. Add content here.
@@ -110,7 +108,7 @@ StorageClass definitions would be retrieved via the Butler YAML configuration fi
 When serializing a ``DatasetRef`` the universe would not be included and would initially be assumed to match the universe in the server.
 A special API should be made available on the server to allow the client to download and cache the correct dimension universe.
 
-Registry has public methods that take and return a number of different.
+Registry has public methods that take and return a number of different types.
 It will be necessary to have methods to convert these to and from JSON for transmission between the client and server.
 To minimize the need to send information that is known to the server, minimal forms of some objects can be transmitted.
 For example, a client can send a ``DatasetType`` as the name of the dataset type without having to include all the dimension information.
@@ -208,6 +206,7 @@ Part of the benefit of using a client/server approach is that the server can con
 
 This does though mean that there must be code in the server that can take the user name and determine which information can be used.
 This does not simply mean checking that the collection name includes the user name since the checks must also be able to look at collections that have group access controls (one person may wish to give access of their processed data to another user but no-one else).
+The specifics of the permission model are discussed in :cite:`DMTN-182`.
 
 Conclusion
 ==========
@@ -216,8 +215,10 @@ After analyzing the options given above, the baseline plan is to:
 
 #. Support a pluggable registry in butler configuration and define a lightweight ABC interface.
 #. Write a cutdown client Registry that implements the more common methods.
+#. Support read-only Registry queries
+#. Support ``butler.get()``
 #. Implement a datastore subclass that can update datastore registry records via a server.
-#. Support butler put and get using these classes.
+#. Support ``butler.put()``  using these classes.
 #. Add URL signing to datastore.
 
 After this work has been completed we will be able to assess whether we also need server interfaces at the Butler level.
