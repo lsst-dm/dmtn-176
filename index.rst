@@ -128,7 +128,7 @@ It is also possible that a special remote Datastore subclass could be written th
 The dataset artifact side of Datastore already knows how to transfer data to and from a remote object store or file server via the generic ``ButlerURI`` implementation so there is no need to duplicate that support into a special butler server.
 
 What will be required though is to include in the butler server a means for translating the URIs stored in the datastore registry into `signed URLs`_.
-The URIs would likely be written as ``gcs://`` or ``s3://`` form in the registry and would be converted to signed ``https`` URLs for use by the client.
+The URIs would likely be written as ``gs://`` or ``s3://`` form in the registry and would be converted to signed ``https`` URLs for use by the client.
 For read this could be handled directly in the server implementation of ``getStoredItemsInfo`` such that the URIs are always returned as signed URLs.
 For write, the URI is constructed using the file template and ``LocationFactory`` called from ``Datastore._prepare_for_put()``.
 This code would have to be factored out into its own method such that a client ``Datastore`` subclass could ask the server to convert that URI to a signed URL.
